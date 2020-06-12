@@ -33,5 +33,7 @@ if options.selection == 'singlelepton':
 
 job.algsAdd(alg)
 
+job.outputAdd(ROOT.EL.OutputStream('ANALYSIS'))
+
 driver = ROOT.EL.DirectDriver()
 driver.submit(job, 'ntuplize_job')

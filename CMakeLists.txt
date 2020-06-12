@@ -5,7 +5,7 @@ atlas_subdir(AJMLChallenge)
 atlas_add_library(AJMLChallengeLib
   AJMLChallenge/*.h Root/*.cxx
   PUBLIC_HEADERS AJMLChallenge
-  LINK_LIBRARIES AnaAlgorithmLib)
+  LINK_LIBRARIES AnaAlgorithmLib xAODEventInfo)
 
 if(XAOD_STANDALONE)
  # Add the dictionary(for AnalysisBase only):

@@ -15,6 +15,7 @@ public:
   StatusCode finalize() override;
 
 private:
+  unsigned eventNumber_{};
 };
 
 #endif

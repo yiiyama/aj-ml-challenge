@@ -1,5 +1,8 @@
 #include <AsgTools/MessageCheck.h>
+#include <xAODEventInfo/EventInfo.h>
 #include <AJMLChallenge/SingleLeptonSelector.h>
+
+#include "TTree.h"
 
 SingleLeptonSelector::SingleLeptonSelector(std::string const& name, ISvcLocator* pSvcLocator) :
   EL::AnaAlgorithm(name, pSvcLocator)
@@ -18,6 +21,11 @@ SingleLeptonSelector::initialize()
   // beginning on each worker node, e.g. create histograms and output
   // trees.  This method gets called before any input files are
   // connected.
+  ANA_CHECK(book(TTree("events", "Events")));
+  auto& ntuples(*tree("events"));
+  
+  ntuples.Branch("eventNumber", &eventNumber_, "eventNumber/i");
+
   return StatusCode::SUCCESS;
 }
 
@@ -28,6 +36,14 @@ SingleLeptonSelector::execute()
   // events, e.g. read input variables, apply cuts, and fill
   // histograms and trees.  This is where most of your actual analysis
   // code will go.
+
+  xAOD::EventInfo const* eventInfo{};
+  ANA_CHECK(evtStore()->retrieve(eventInfo, "EventInfo"));
+
+  eventNumber_ = eventInfo->eventNumber();
+
+  tree("events")->Fill();
+
   return StatusCode::SUCCESS;
 }
 
